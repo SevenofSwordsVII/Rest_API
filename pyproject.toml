@@ -1,0 +1,97 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rest-api-boilerplate"
+version = "0.1.0"
+description = "Production-grade, reusable modular monolith REST API boilerplate with FastAPI, SQLAlchemy 2.0 Async, and PostgreSQL"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.5.0",
+    "sqlalchemy[asyncio]>=2.0.35",
+    "asyncpg>=0.29.0",
+    "alembic>=1.13.3",
+    "pyjwt>=2.9.0",
+    "argon2-cffi>=23.1.0",
+    "uvicorn[standard]>=0.30.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "httpx>=0.27.2",
+    "ruff>=0.6.8",
+    "mypy>=1.11.0",
+    "aiosqlite>=0.20.0",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+exclude = [
+    ".git",
+    ".venv",
+    "FastAPI-boilerplate-main",
+    "fastapi-best-architecture-master",
+    "fastapi-best-practices-master",
+    "full-stack-fastapi-template-master",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "C4",   # flake8-comprehensions
+    "T20",  # flake8-print
+]
+
+ignore = [
+    "B008",  # do not perform function calls in argument defaults (FastAPI Depends)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_optional = true
+plugins = ["pydantic.mypy"]
+exclude = [
+    "^FastAPI-boilerplate-main/",
+    "^fastapi-best-architecture-master/",
+    "^fastapi-best-practices-master/",
+    "^full-stack-fastapi-template-master/",
+]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/core",
+    "src/domains"
+]
