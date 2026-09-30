@@ -28,6 +28,7 @@ dev = [
     "ruff>=0.6.8",
     "mypy>=1.11.0",
     "aiosqlite>=0.20.0",
+    "locust>=2.31.0",
 ]
 
 [tool.ruff]
