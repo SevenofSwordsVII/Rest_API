@@ -33,6 +33,17 @@ services:
       postgres:
         condition: service_healthy
 
+  locust:
+    image: locustio/locust
+    container_name: rest_locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./tests/load:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --host http://api:8000
+    depends_on:
+      - api
+
 volumes:
   postgres_data:
     driver: local
