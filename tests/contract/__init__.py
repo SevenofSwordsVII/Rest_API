@@ -1,0 +1,1 @@
+"""OpenAPI contract test package."""
