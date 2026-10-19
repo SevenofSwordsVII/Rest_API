@@ -47,6 +47,13 @@ class Settings(BaseSettings):
     RATE_LIMIT_PER_MINUTE: int = Field(default=60, ge=1)
     AUTH_RATE_LIMIT_PER_MINUTE: int = Field(default=10, ge=1)
 
+    # Admin Panel
+    ADMIN_USERNAME: str = Field(default="admin", description="SQLAdmin username")
+    ADMIN_PASSWORD: str = Field(
+        default="admin_change_me_in_production",
+        description="SQLAdmin password",
+    )
+
     # CORS
     CORS_ORIGINS: list[str] = [
         "http://localhost:3000",

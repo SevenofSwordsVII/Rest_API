@@ -46,6 +46,9 @@ class User(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         lazy="selectin",
     )
 
+    def __str__(self) -> str:
+        return self.email or str(self.id)
+
 
 class RefreshToken(Base, UUIDPrimaryKeyMixin):
     """Stores active and consumed refresh token states for rotating sessions."""
@@ -104,3 +107,6 @@ class RefreshToken(Base, UUIDPrimaryKeyMixin):
         "User",
         back_populates="refresh_tokens",
     )
+
+    def __str__(self) -> str:
+        return f"Token({self.user_id})"

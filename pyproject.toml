@@ -18,6 +18,8 @@ dependencies = [
     "pyjwt>=2.9.0",
     "argon2-cffi>=23.1.0",
     "uvicorn[standard]>=0.30.0",
+    "sqladmin>=0.20.1",
+    "itsdangerous>=2.2.0",
 ]
 
 [project.optional-dependencies]

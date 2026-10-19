@@ -22,6 +22,12 @@ from src.domains.work_management.router import router as work_router
 
 logger = logging.getLogger("api.main")
 
+try:
+    from src.admin import setup_admin
+except ImportError as exc:  # pragma: no cover
+    logger.warning("SQLAdmin not installed or failed to import: %s", exc)
+    setup_admin = None  # type: ignore[assignment]
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
@@ -93,6 +99,16 @@ def create_app() -> FastAPI:
     app.include_router(work_router, prefix=settings.API_V1_PREFIX)
     app.include_router(notifications_router, prefix=settings.API_V1_PREFIX)
     app.include_router(audit_router, prefix=settings.API_V1_PREFIX)
+
+    # 5. SQLAdmin Dashboard
+    if setup_admin is not None:
+        try:
+            setup_admin(app, engine)
+            logger.info("SQLAdmin dashboard mounted at /admin")
+        except Exception as exc:
+            logger.error("Failed to mount SQLAdmin dashboard: %s", exc, exc_info=True)
+    else:
+        logger.warning("SQLAdmin is disabled: missing sqladmin package in environment")
 
     return app
 

@@ -64,4 +64,7 @@ class AuditLogEntry(Base, UUIDPrimaryKeyMixin):
     organization: Mapped["Organization | None"] = relationship("Organization")
     actor: Mapped["User | None"] = relationship("User")
 
+    def __str__(self) -> str:
+        return f"{self.action} on {self.target_resource}"
+
     __table_args__ = (Index("ix_audit_org_created", "organization_id", created_at.desc()),)

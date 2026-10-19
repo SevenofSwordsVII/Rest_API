@@ -49,6 +49,9 @@ class Organization(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         lazy="selectin",
     )
 
+    def __str__(self) -> str:
+        return self.name or str(self.id)
+
 
 class OrganizationMembership(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Tenant-scoped user membership with assigned RBAC role."""
@@ -88,3 +91,6 @@ class OrganizationMembership(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         "User",
         lazy="selectin",
     )
+
+    def __str__(self) -> str:
+        return f"{self.user_id} ({self.role})"

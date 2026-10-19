@@ -82,6 +82,9 @@ class Project(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         cascade="all, delete-orphan",
     )
 
+    def __str__(self) -> str:
+        return self.name or str(self.id)
+
 
 class Task(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Actionable unit of work scoped to a project."""
@@ -143,6 +146,9 @@ class Task(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         cascade="all, delete-orphan",
     )
 
+    def __str__(self) -> str:
+        return self.title or str(self.id)
+
 
 class Comment(Base, UUIDPrimaryKeyMixin, TimestampMixin):
     """Contextual comment left by a team member on a task."""
@@ -168,3 +174,6 @@ class Comment(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     task: Mapped["Task"] = relationship("Task", back_populates="comments")
     author: Mapped["User"] = relationship("User")
+
+    def __str__(self) -> str:
+        return f"Comment({self.id})"
